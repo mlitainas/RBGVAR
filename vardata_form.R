@@ -31,10 +31,7 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
       } else if (minimum == 1L) {
         "a positive integer"
       } else {
-        paste0(
-          "an integer greater than or equal to ",
-          minimum
-        )
+        paste0("an integer greater than or equal to ", minimum)
       }
       stop(sprintf("'%s' must be %s.", argument_name, description), call. = FALSE)
     }
@@ -158,9 +155,7 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
       )
     }
     
-    TimeID <- data.frame(
-      TimeID = data[[1L]]
-    )
+    TimeID <- data.frame(TimeID = data[[1L]])
     
     data <- data[-1L]
     
@@ -174,18 +169,13 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
       )
     }
     
-    message(
-      "Time identifier detected: ",
-      time_id_name
-    )
+    message("Time identifier detected: ", time_id_name )
     
   } else {
     
     TimeID <- NULL
+    message("No time identifier detected.")
     
-    message(
-      "No time identifier detected."
-    )
   }
   
   # Check the endogenous variables after removing the time identifier.
@@ -254,18 +244,11 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
   # -------------------------------------------------------------------------- #
   # 7. Check xlags
   # -------------------------------------------------------------------------- #
-  
-  check_integer_scalar(
-    xlags,
-    "xlags",
-    minimum = 0L
-  )
-  
+  check_integer_scalar(xlags, "xlags",minimum = 0L)
   
   # -------------------------------------------------------------------------- #
   # 8. Check det_controls
   # -------------------------------------------------------------------------- #
-  
   if (!is.null(det_controls)) {
     check_numeric_block(
       x = det_controls,
@@ -278,7 +261,6 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
   # -------------------------------------------------------------------------- #
   # 9. Check ex
   # -------------------------------------------------------------------------- #
-  
   if (!is.null(ex)) {
     check_numeric_block(x = ex,argument_name = "ex",expected_rows = number_of_observations)
   }
@@ -286,7 +268,6 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
   # -------------------------------------------------------------------------- #
   # 10. Check ex_lag
   # -------------------------------------------------------------------------- #
-  
   if (!is.null(ex_lag)) {
     check_integer_scalar(ex_lag,"ex_lag",minimum = 0L)
   }
@@ -300,7 +281,6 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
   # -------------------------------------------------------------------------- #
   # 11. Check feedback_only
   # -------------------------------------------------------------------------- #
-  
   check_logical_scalar(feedback_only,"feedback_only")
   
   # -------------------------------------------------------------------------- #
@@ -459,17 +439,9 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
   endogenous_lag_blocks <- lapply(
     seq_len(lags),
     function(lag_order) {
-      
-      lag_block <- dplyr::lag(
-        y,
-        lag_order
-      )
-      
-      names(lag_block) <- paste0(
-        names_of_endog_variables,
-        "_",
-        lag_order
-      )
+    
+      lag_block <- dplyr::lag(y,lag_order)
+      names(lag_block) <- paste0(names_of_endog_variables,"_",lag_order)
       
       lag_block
     }
@@ -548,16 +520,9 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
                                    
         function(lag_order) {
           
-          lag_block <- dplyr::lag(
-            star_data,
-            lag_order
-          )
+          lag_block <- dplyr::lag(star_data,lag_order)
           
-          names(lag_block) <- paste0(
-            names_of_star_variables,
-            "_",
-            lag_order
-          )
+          names(lag_block) <- paste0(names_of_star_variables,"_",lag_order)
           
           lag_block
         }
@@ -655,9 +620,7 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
     ncol(ex_block)
   }
   
-  expected_number_of_exogenous_regressors <-
-    number_of_exogenous_variables +
-    number_of_lagged_exogenous_variables
+  expected_number_of_exogenous_regressors <- number_of_exogenous_variables + number_of_lagged_exogenous_variables
   
   if (
     number_of_exogenous_regressors !=
@@ -873,18 +836,11 @@ vardata_form = function(data , lags = 1, const = TRUE, trend = FALSE, trend_qua 
   # -------------------------------------------------------------------------- #
   
   if (!is.null(TimeID)) {
-    TimeID <- TimeID[
-      estimation_rows,
-      ,
-      drop = FALSE
-    ]
+    TimeID <- TimeID[estimation_rows, , drop = FALSE]
     
     if (nrow(TimeID) != number_of_effective_observations) {
       stop(
-        paste0(
-          "Internal error: 'TimeID' is not aligned ",
-          "with the estimation matrices."
-        ),
+        paste0("Internal error: 'TimeID' is not aligned with the estimation matrices."),
         call. = FALSE
       )
     }
