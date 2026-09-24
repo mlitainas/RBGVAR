@@ -27,8 +27,7 @@ vardata$number_of_non_endogenous_regressors
   if (nexo != det + nexo_cont + nexo_lag) {
     stop(
       paste0(
-        "Internal error: the non-endogenous regressor counts ",
-        "are inconsistent."
+        "Internal error: the non-endogenous regressor counts are inconsistent."
       ),
       call. = FALSE
     )
